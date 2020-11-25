@@ -9,6 +9,7 @@ services:
       - /var/www
     restart: always
     environment:
+      MODE: ${MODE}
       DB_USERNAME: ${DB_USER}
       DB_PASSWORD: ${DB_PASS}
       DB_DATABASE: ${DB_NAME}
@@ -47,6 +48,19 @@ services:
      - /sessions
     links:
      - database:db
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: always
+    ports:
+      - "80:80"
+    expose:
+      - '80'
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - server
 
 volumes:
   fastapi-db:

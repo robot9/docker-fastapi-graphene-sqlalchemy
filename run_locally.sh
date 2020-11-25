@@ -21,6 +21,7 @@ export DB_USERNAME=$(read_var DB_USER)
 export DB_PASSWORD=$(read_var DB_PASS)
 export DB_DATABASE=$(read_var DB_NAME)
 export DB_HOST=0.0.0.0
+export MODE=$(read_var MODE)
 
 # Run on a separate port instead
 python3.8 /usr/local/bin/uvicorn --host=0.0.0.0 --port=5001 app.main:app
