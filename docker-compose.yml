@@ -1,0 +1,53 @@
+version: "3"
+services:
+
+  server:
+    container_name: fastapi
+    build: .
+    ports: ['5000:5000']
+    volumes: 
+      - /var/www
+    restart: always
+    environment:
+      DB_USERNAME: ${DB_USER}
+      DB_PASSWORD: ${DB_PASS}
+      DB_DATABASE: ${DB_NAME}
+      DB_HOST: database
+    links:
+      - database
+
+  database:
+    container_name: database
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+      MYSQL_ROOT_PASSWORD: ${DB_PASS}
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - fastapi-db:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+     - PMA_ARBITRARY=1
+     - PMA_USER=${DB_USER}
+     - PMA_PASSWORD=${DB_PASS}
+     - PMA_HOST=database
+    restart: always
+    ports:
+     - 8080:80
+    volumes:
+     - /sessions
+    links:
+     - database:db
+
+volumes:
+  fastapi-db:
+    external: True
