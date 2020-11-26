@@ -13,10 +13,10 @@ Deploy your [GraphQL](https://graphql.org/) backend easily based on [graphene-sq
 
 ## Installation
 
-1. Copy and set up your own `.ENV` file with your own username/password
+1. Copy and set up your own `.env` file with your own username/password
 
 ```
-cp example.env .ENV
+cp example.env .env
 ```
 2. Build volume for db storage
 ```
